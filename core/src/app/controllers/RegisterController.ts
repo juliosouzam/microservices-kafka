@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { hash } from 'bcryptjs';
+import { CompressionTypes } from 'kafkajs';
 
 import { User } from '../../schemas/User';
 
@@ -22,6 +23,7 @@ export class RegisterController {
 
     await producer.send({
       topic: 'email-notification',
+      compression: CompressionTypes.GZIP,
       messages: [
         {
           value: JSON.stringify({
